@@ -1,5 +1,7 @@
 open String;
 
+structure Functions = struct
+
 fun ins(sequence, fragment, position) = 
     let
         val first = substring(sequence, 0, position - 1)
@@ -158,3 +160,5 @@ fun writefa(file, name, path) = ;
 fun writefq(file, name, path) = ;
 
 fun input(prompt) = ;
+
+end
