@@ -164,7 +164,7 @@ fun trim(header, sequence, quality, adapter) = let
   andalso String.compare(implode(List.drop(monomers, size(implode(monomers)) - size(adapter))), adapter) = EQUAL
   then [implode(List.drop(monomers, size(implode(monomers)) - size(adapter))), implode(List.drop(qualities, size(implode(qualities)) - size(adapter)))]
   
-  else [monomers, qualities]
+  else [implode(monomers), implode(qualities)]
   
 in
   find(monomers, qualities, adapter)
