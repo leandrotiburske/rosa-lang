@@ -147,7 +147,28 @@ end;
 
 fun qctrl(fastq, threshol, range) = ;
 
-fun trim(file, adapters, primers) = ;
+fun trim(header, sequence, quality, adapter) = let
+  val monomers = explode(sequence)
+  val qualities = explode(quality)
+  
+  fun find(monomers, qualities, adapter) =
+  if String.compare(implode(List.take(monomers, size(adapter))), adapter) = EQUAL 
+  andalso String.compare(implode(List.drop(monomers, size(implode(monomers)) - size(adapter))), adapter) = EQUAL
+  then [implode(List.take(List.drop(monomers, size(implode(monomers))), size(adapter))), 
+  implode(List.take(List.drop(qualities, size(implode(qualities))), size(adapter)))]
+  
+  else if String.compare(implode(List.take(monomers, size(adapter))), adapter) = EQUAL 
+  andalso not (String.compare(implode(List.drop(monomers, size(implode(monomers)) - size(adapter))), adapter) = EQUAL)
+  then [implode(List.take(monomers, size(adapter))), implode(List.take(qualities, size(adapter)))]
+  else if not (String.compare(implode(List.take(monomers, size(adapter))), adapter) = EQUAL) 
+  andalso String.compare(implode(List.drop(monomers, size(implode(monomers)) - size(adapter))), adapter) = EQUAL
+  then [implode(List.drop(monomers, size(implode(monomers)) - size(adapter))), implode(List.drop(qualities, size(implode(qualities)) - size(adapter)))]
+  
+  else [monomers, qualities]
+  
+in
+  find(monomers, qualities, adapter)
+end;
 
 fun tofasta(fastq) = ;
 
